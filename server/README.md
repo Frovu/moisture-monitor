@@ -4,4 +4,8 @@
 + store and serve sensors descriptions
 + get, store and serve data linked with source sensor
 
-...TBD
+## .env file
+
+```
+PORT=3366
+```
