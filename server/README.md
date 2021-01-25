@@ -10,6 +10,16 @@
 PORT=3366
 ```
 
+## API ref
+
+`GET /api/data`
+Query (optional): `?[from=tstamp][&to=tstamp]`
+Returns object
+
+`GET /api/devices`
+
+`POST /api/data`
+
 ## sql structure
 
 CREATE TABLE data (
