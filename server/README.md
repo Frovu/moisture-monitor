@@ -8,6 +8,11 @@
 
 ```
 PORT=3366
+DB_USER=moisture
+DB_NAME=moisture
+DB_HOST=
+DB_PASSWORD=
+DB_PORT=5432
 ```
 
 ## API ref

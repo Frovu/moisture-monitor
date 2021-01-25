@@ -29,3 +29,5 @@ router.post('/data', async (req, res) => {
 		return res.sendStatus(500);
 	}
 });
+
+module.exports = router;
