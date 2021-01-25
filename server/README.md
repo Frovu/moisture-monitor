@@ -9,3 +9,19 @@
 ```
 PORT=3366
 ```
+
+## sql structure
+
+CREATE TABLE data (
+	id SERIAL PRIMARY KEY,
+	at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	dev integer NOT NULL,
+	temperature real,
+	moisture real,
+);
+
+CREATE TABLE devices (
+	id SERIAL PRIMARY KEY,
+	key TEXT NOT NULL,
+	description TEXT
+);
