@@ -18,7 +18,7 @@ else
 	tmr.create():alarm(60000, tmr.ALARM_SINGLE, function() stop_server() end)
 end
 
-local function stop_server()
+function stop_server()
 	if conf_server then
 		conf_server.stop()
 		conf_server = nil

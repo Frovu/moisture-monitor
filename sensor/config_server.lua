@@ -70,9 +70,8 @@ function M.receiver(sck, data, callback)
 			index = file.read(4096)
 			file.close()
 		end
-		for k,v in pairs(sta_config) do index = index:gsub("$"..k, v) end
 		for k,v in pairs(settings) do index = index:gsub("$"..k, v) end
-		sck:send(index)
+		sck:send(index:gsub("$ssid", sta_config.ssid):gsub("$pwd", sta_config.pwd))
 		sck:on("sent", function(conn) conn:close() end)
 	end
 end
