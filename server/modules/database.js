@@ -13,14 +13,20 @@ const FIELDS = {
 };
 
 const devices = {};
-async function getDevices() {
-	const res = await pool.query({ rowMode: 'array',
-		text: 'SELECT id, key from devices'});
+async function fetchDevices() {
+	const res = await pool.query('SELECT * from devices');
 	for(const row of res.rows)
-		devices[row[1]] = row[0];
+		devices[row.key] = {id: row.id, desc: row.description};
 	global.log(`devices auth keys: ${Object.keys(devices).join()}`);
 }
-getDevices();
+fetchDevices();
+
+function getDevices() {
+	const dev = {};
+	for(const d of Object.values(devices))
+		dev[d.id] = d.desc;
+	return dev;
+}
 
 function authorize(key) {
 	return key && devices[key] || false;
@@ -62,6 +68,7 @@ async function select(params) {
 	}
 }
 
+module.exports.getDevices = getDevices;
 module.exports.validate = validate;
 module.exports.authorize = authorize;
 module.exports.insert = insert;

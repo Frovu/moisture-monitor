@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('./database');
 
 router.get('/devices', async (req, res) => {
-	res.sendStatus(501);
+	res.status(200).json(db.getDevices());
 });
 
 router.get('/data', async (req, res) => {
