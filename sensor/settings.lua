@@ -35,6 +35,8 @@ local function server_loader()
 		alarm:unregister()
 		conf_server.start(function (ssid, pwd, config)
 			stop_server()
+			print("\nUpdating sta settings to:\n\tssid="..ssid.." pwd="..pwd)
+			print("New config: "..sjson.encode(config))
 			sta_config.ssid = ssid
 			sta_config.pwd = pwd
 			wifi.sta.config(sta_config)

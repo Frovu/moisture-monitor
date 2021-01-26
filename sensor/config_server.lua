@@ -35,19 +35,29 @@ function M.stop()
 	wifi.setmode(wifi.STATION)
 end
 
+local required_config = {"uri", "dev", "data_rate"}
+
 function M.receiver(sck, data, callback)
 	if string.find(data, "^POST") then
 		local body = data:match("\n[^\n]*$")
 		local ssid = body:match("ssid=([^\&]+)")
 		local pwd = body:match("pwd=([^\&]+)")
-		local new_uri = body:match("uri=([^\&]+)"):gsub("%%3A", ":"):gsub("%%2F", "/")
-		if ssid and pwd and uri then
-			print("\nUpdating hard settings to:\n\tssid="..ssid.." pwd="..pwd)
+		local new_config = {}
+		for k,v in pairs(required_config) do
+			local m = body:match(v.."=([^\&]+)")
+			if m then
+				new_config[v] = m:gsub("%%3A", ":"):gsub("%%2F", "/")
+			else
+				sck:send("bad request");
+				return
+			end
+		end
+		if ssid and pwd then
 			sck:send("<!DOCTYPE html>\n<h1>Settings updated</h1>");
 			sck:on("sent", function(conn)
 				conn:close()
 				tmr.create():alarm(300, tmr.ALARM_SINGLE, function()
-					callback(ssid, pwd, new_uri)
+					callback(ssid, pwd, new_config)
 				end)
 			end)
 		else
@@ -60,7 +70,9 @@ function M.receiver(sck, data, callback)
 			index = file.read(4096)
 			file.close()
 		end
-		sck:send(string.format(index, sta_config and sta_config.ssid or "", sta_config and sta_config.pwd or "", uri or ""))
+		for k,v in pairs(sta_config) do index = index:gsub("$"..k, v) end
+		for k,v in pairs(settings) do index = index:gsub("$"..k, v) end
+		sck:send(index)
 		sck:on("sent", function(conn) conn:close() end)
 	end
 end
