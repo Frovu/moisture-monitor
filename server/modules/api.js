@@ -16,7 +16,7 @@ router.get('/data', async (req, res) => {
 
 router.post('/data', async (req, res) => {
 	try {
-		const data = typeof req.body === 'object' && db.validateData(req.body, 'data');
+		const data = typeof req.body === 'object' && db.validate(req.body);
 		if(!data)
 			return res.sendStatus(400);
 		const dev = db.authorize(req.body.dev);

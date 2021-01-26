@@ -8,8 +8,8 @@ const pool = new Pool({
 });
 
 const FIELDS = {
-	t: 'temperature',
 	m: 'moisture',
+	t: 'temperature',
 };
 
 const devices = {};
@@ -29,7 +29,7 @@ function getDevices() {
 }
 
 function authorize(key) {
-	return key && devices[key] || false;
+	return devices[key] && devices[key].id;
 }
 
 function validate(data) {
