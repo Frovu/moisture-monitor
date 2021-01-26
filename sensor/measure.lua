@@ -1,7 +1,18 @@
 
 local function send(temperature)
-	print(temperature)
-
+	local body = sjson.encode({
+		dev = settings.dev,
+		t = temperature,
+		m = adc.read(0)
+	})
+	print("Sending data: "..body)
+	http.post(settings.uri, "Content-Type: application/json\r\n", body, function(code, data)
+		if (code ~= 200) then
+			print("Failed: "..code)
+		else
+			print("Success.")
+		end
+	end)
 end
 
 return {send = send}
