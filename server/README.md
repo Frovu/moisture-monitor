@@ -18,15 +18,35 @@ DB_PORT=5432
 ## API ref
 
 `GET /api/data`
-Query (optional): `?[from=tstamp][&to=tstamp]`
-Returns object
+
+Query ([]optional): `?dev=<id>&[from=<tstamp>][&to=<tstamp>]`
+
+Returns object:
++ `fields` - ordered array of field names
++ `rows` - 2d array of data, column order matches `fields`
 
 `GET /api/devices`
 
+Returns 400 or 200 with object:
++ key - device `id` to be queried in `GET /api/data`
++ value - device description
+
 `POST /api/data`
+
+Query:
+```json
+{
+	"t": 13.37,
+	"m": 1337,
+	"dev": "test"
+}
+```
+
+Responses 400, 401, 500 or 200
 
 ## sql structure
 
+	m: 'moisture',
 CREATE TABLE data (
 	id SERIAL PRIMARY KEY,
 	at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
