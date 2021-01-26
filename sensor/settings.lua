@@ -40,10 +40,14 @@ local function server_loader()
 			sta_config.ssid = ssid
 			sta_config.pwd = pwd
 			wifi.sta.config(sta_config)
-			settings = config
 			if file.open(CONFIG, "w") then
 				file.write(sjson.encode(config))
 				file.close()
+			end
+			if settings.data_rate ~= config.data_rate then
+				node.restart() -- a bit crunchy solution to changing timer frequency but who cares
+			else
+				settings = config
 			end
 		end)
 	else
