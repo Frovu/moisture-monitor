@@ -15,7 +15,7 @@ local conf_server
 if #tostring(sta_config.ssid) == 0 then
 	sta_config = {}
 else
-	tmr.create():alarm(60000, tmr.ALARM_SINGLE, function() stop_server() end)
+	tmr.create():alarm(300000, tmr.ALARM_SINGLE, function() stop_server() end)
 end
 
 function stop_server()
