@@ -50,13 +50,14 @@ async function insert(dev, data) {
 }
 
 async function select(params) {
+	const dev = params.dev && Object.values(devices).find(d => d.id == params.dev);
 	const from = params.from && parseInt(params.from);
 	const to = params.to && parseInt(params.to);
-	if((from && isNaN(from)) || (to && isNaN(to)))
+	if(!dev || (from && isNaN(from)) || (to && isNaN(to)))
 		return null;
 	// cursed code here, golang devs would quite dislike it
-	const q = `SELECT at,${Object.values(FIELDS).join()} FROM data ` + ((from||to)?'WHERE ':'')
-		+ (from?`at >= to_timestamp(${from}) `:'') + (to?(from?'AND ':'') + `at < to_timestamp(${to})`:'');
+	const q = `SELECT at,${Object.values(FIELDS).join()} FROM data WHERE dev=${dev.id}`
+		+ (from?` AND at >= to_timestamp(${from})`:'') + (to?` AND at < to_timestamp(${to})`:'');
 	try {
 		const res = await pool.query({ rowMode: 'array', text: q});
 		return {

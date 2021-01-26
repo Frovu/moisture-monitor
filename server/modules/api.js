@@ -11,7 +11,7 @@ router.get('/data', async (req, res) => {
 	if(resp)
 		res.status(200).json(resp);
 	else
-		res.sendStatus(500);
+		res.sendStatus(400);
 });
 
 router.post('/data', async (req, res) => {
