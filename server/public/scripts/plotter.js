@@ -23,18 +23,24 @@ function plot () {
     {
         title: "Moisture Sensor",
         showRoller: true,
-
-        strokeWidth: 3.0,
+        strokeWidth: 2.0,
         labels: ['Date', 'Moisture', 'Temperature'],
-  
-        axes: {
-            y: {
-
-                ticker: function(min, max, pixels, opts, dygraph, vals) {
-                    return [{v:20, label:"20"}, {v:700, label:"700"}];
-                }
+        ylabel: 'Moisture Axis',
+        y2label: 'Temperature Axis',
+        series: {
+            'Moisture': {
+                axis: 'y1'
             },
-          }
+            'Temperature': {
+                axis: 'y2'
+            }
+        },
+        axes: {
+            y1: {
+                valueRange: [650, 750],
+                labelsKMB: true
+            }
+          },
     });
 
     // GET "update"?
