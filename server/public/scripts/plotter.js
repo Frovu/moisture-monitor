@@ -22,6 +22,7 @@ function plot () {
     graph = new Dygraph(document.getElementById("div_g"), data,
     {
         title: "Moisture Sensor",
+        legend: 'always',
         showRoller: true,
         strokeWidth: 2.0,
         labels: ['Date', 'Moisture', 'Temperature'],
