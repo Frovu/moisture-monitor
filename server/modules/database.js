@@ -57,7 +57,8 @@ async function select(params) {
 		return null;
 	// cursed code here, golang devs would quite dislike it
 	const q = `SELECT at,${Object.values(FIELDS).join()} FROM data WHERE dev=${dev.id}`
-		+ (from?` AND at >= to_timestamp(${from})`:'') + (to?` AND at < to_timestamp(${to})`:'');
+		+ (from?` AND at >= to_timestamp(${from})`:'') + (to?` AND at < to_timestamp(${to})`:'')
+		+ ' ORDER BY at';
 	try {
 		const res = await pool.query({ rowMode: 'array', text: q});
 		return {
