@@ -58,14 +58,18 @@ end
 alarm:register(1000, tmr.ALARM_SEMI, server_loader)
 alarm:start()
 
+local WARN_PIN = 6
+gpio.mode(WARN_PIN, gpio.OUTPUT)
+gpio.write(WARN_PIN, gpio.HIGH)
+
 wifi.eventmon.register(wifi.eventmon.STA_DISCONNECTED, function(T)
 	print("\nSTA - DISCONNECTED".."\nSSID: "..T.SSID.."\nBSSID: "..T.BSSID.."\nreason: "..T.reason)
-	ALLOW_NET = false -- disconnected from internet :(
+	gpio.write(WARN_PIN, gpio.HIGH) -- disconnected from internet :(
 end)
 wifi.eventmon.register(wifi.eventmon.STA_CONNECTED, function(T)
 	print("\nSTA - CONNECTED".."\nSSID: "..T.SSID.."\nBSSID: "..T.BSSID.."\nChannel: "..T.channel)
 end)
 wifi.eventmon.register(wifi.eventmon.STA_GOT_IP, function(T)
 	print("\nSTA - GOT IP".."\nStation IP: "..T.IP.."\nSubnet mask: "..T.netmask.."\nGateway IP: "..T.gateway)
-	ALLOW_NET = true -- connected to internet now
+	gpio.write(WARN_PIN, gpio.LOW) -- connected to internet now
 end)
