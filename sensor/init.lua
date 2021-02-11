@@ -8,7 +8,7 @@ dofile("settings.lua")
 local measure = require("measure")
 local ds18b20 = require("ds18b20")
 
-local DS18B20_PIN = 3
+local DS18B20_PIN = 5
 local LED_PIN = 4
 
 ds18b20.init(DS18B20_PIN)
