@@ -8,7 +8,7 @@ getDevices().then((response) => {
 const FIELD_TO_LABEL = {
 	moisture: 'Moisture',
 	temperature: 'Temperature',
-	date: 'Date'
+	at: 'Date'
 };
 
 async function plot(devId) {
@@ -47,6 +47,8 @@ async function plot(devId) {
 	}, 10000));
 }
 
+function ready() {}
+
 async function getDevices() {
 	const response = await fetch('api/devices');
 	if(response && response.ok)
@@ -60,5 +62,10 @@ async function getData(devId) {
 	if(!response || !response.ok)
 		return null;
 	//show_error("Server didn't respond or some error occured");
-	return await response.json();
+	const data = await response.json();
+	const dateField = data.fields.indexOf('at');
+	data.rows.forEach((row, i) => {
+		data.rows[i][dateField] = new Date(row[dateField]);
+	});
+	return data;
 }
