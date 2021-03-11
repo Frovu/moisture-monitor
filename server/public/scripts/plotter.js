@@ -44,7 +44,7 @@ async function plot(devId) {
 		getData(devId)
 			.then(data => graph.updateOptions({'file': data.rows}));
 		console.log('updated');
-	}, 10000));
+	}, 60000));
 }
 
 function ready() {}
