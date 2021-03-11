@@ -19,6 +19,7 @@ router.post('/data', async (req, res) => {
 		const data = typeof req.body === 'object' && db.validate(req.body);
 		if(!data)
 			return res.sendStatus(400);
+		global.log(`Got data: ${req.body}`);
 		const dev = db.authorize(req.body.dev);
 		if(!dev) // not a known device key
 			return res.sendStatus(401);
