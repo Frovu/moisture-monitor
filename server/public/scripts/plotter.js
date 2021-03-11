@@ -58,7 +58,7 @@ async function getDevices() {
 }
 
 async function getData(devId) {
-	const response = await fetch(`api/data?dev=${devId}`);
+	const response = await fetch(`api/data?dev=${devId}&from=${Date.now()-3600*24*7}`);
 	if(!response || !response.ok)
 		return null;
 	//show_error("Server didn't respond or some error occured");
