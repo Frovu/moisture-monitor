@@ -2,7 +2,7 @@
 
 ## Node MCU firmware modules
 
-`ads1115 file gpio http i2c net node tmr uart wifi`
+`ads1115 file gpio http i2c net node ow sjson tmr uart wifi`
 
 ## Features
 + recording soil moisture values with ADC
