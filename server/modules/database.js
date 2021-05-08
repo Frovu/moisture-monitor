@@ -9,7 +9,9 @@ const pool = new Pool({
 
 const FIELDS = {
 	m: 'moisture',
+	m2: 'moisture2',
 	t: 'temperature',
+	v: 'voltage'
 };
 
 const devices = {};
@@ -34,9 +36,11 @@ function authorize(key) {
 
 function validate(data) {
 	const result = {};
-	for(const f in FIELDS) {
+	for (const f in FIELDS) {
+		if (typeof data[f] === 'undefined')
+			continue;
 		const val = parseFloat(data[f]);
-		if(!val || isNaN(val))
+		if (isNaN(val))
 			return false;
 		result[FIELDS[f]] = val;
 	}

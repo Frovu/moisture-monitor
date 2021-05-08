@@ -56,6 +56,8 @@ CREATE TABLE data (
 	dev integer NOT NULL,
 	temperature real,
 	moisture real,
+	moisture2 real,
+	voltage real,
 );
 
 CREATE TABLE devices (
