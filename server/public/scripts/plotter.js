@@ -1,8 +1,14 @@
 window.intervals = [];
 // initial data
 getDevices().then((response) => {
-	const deviceID = Object.keys(response)[0];
-	plot(deviceID);
+	const devices = Object.keys(response);
+	devices.forEach((device) => {
+		let element = document.createElement("option");
+		element.value = element.innerHTML = device;
+		document.getElementById('devices').appendChild(element);
+	});
+	
+	plot(document.getElementById('devices').value);
 });
 
 const FIELD_TO_LABEL = {
