@@ -7,13 +7,15 @@ getDevices().then((response) => {
 		element.value = element.innerHTML = device;
 		document.getElementById('devices').appendChild(element);
 	});
-	
+
 	plot(document.getElementById('devices').value);
 });
 
 const FIELD_TO_LABEL = {
-	moisture: 'Moisture',
+	moisture: 'Moisture 1',
+	moisture2: 'Moisture 2',
 	temperature: 'Temperature',
+	voltage: 'Voltage',
 	at: 'Date'
 };
 
@@ -30,12 +32,18 @@ async function plot(devId) {
 			ylabel: 'Moisture Axis',
 			y2label: 'Temperature Axis',
 			series: {
-				'Moisture': {
+				'Moisture 1': {
+					axis: 'y1'
+				},
+				'Moisture 2': {
 					axis: 'y1'
 				},
 				'Temperature': {
 					axis: 'y2'
-				}
+				},
+				'Voltage': {
+				 	axis: 'y1'
+			 }
 			},
 			axes: {
 				y1: {
