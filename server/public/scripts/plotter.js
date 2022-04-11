@@ -1,43 +1,51 @@
 window.intervals = [];
 // initial data
 getDevices().then((response) => {
-	const deviceID = Object.keys(response)[0];
-	plot(deviceID);
+	const devices = Object.keys(response);
+	devices.forEach((device) => {
+		let element = document.createElement("option");
+		element.value = element.innerHTML = device;
+		document.getElementById('devices').appendChild(element);
+	});
+
+	plot(document.getElementById('devices').value);
 });
 
 const FIELD_TO_LABEL = {
-	moisture: 'Moisture',
+	moisture: 'Moisture 1',
+	moisture2: 'Moisture 2',
 	temperature: 'Temperature',
+	voltage: 'Voltage',
 	at: 'Date'
 };
 
 async function plot(devId) {
 	const data = await getData(devId);
-	const labels = data.fields.map(f => FIELD_TO_LABEL[f]);
 	const graph = new Dygraph(document.getElementById('div_g'), data.rows,
 		{
 			title: 'Moisture Sensor',
 			legend: 'always',
 			showRoller: true,
 			strokeWidth: 2.0,
-			labels: labels,
+			labels: data.fields.map(f => FIELD_TO_LABEL[f]),
 			ylabel: 'Moisture Axis',
 			y2label: 'Temperature Axis',
 			series: {
-				'Moisture': {
+				'Moisture 1': {
+					axis: 'y1'
+				},
+				'Moisture 2': {
 					axis: 'y1'
 				},
 				'Temperature': {
 					axis: 'y2'
-				}
+				},
+				'Voltage': {
+				 	axis: 'y1'
+			 }
 			},
-			axes: {
-				y1: {
-					valueRange: [650, 750],
-					labelsKMB: true
-				}
-			},
-		});
+			visibility: data.fields.map(f => !['voltage'].includes(f)).slice(1),
+});
 
 	// GET "update"?
 	window.intervals.push(setInterval(() => {
