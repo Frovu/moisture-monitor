@@ -57,6 +57,7 @@ CREATE TABLE data (
 	temperature real,
 	moisture real,
 	moisture2 real,
+	solar_radiation real,
 	voltage real,
 );
 

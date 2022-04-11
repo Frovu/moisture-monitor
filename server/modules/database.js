@@ -10,6 +10,7 @@ const pool = new Pool({
 const FIELDS = {
 	m: 'moisture',
 	m2: 'moisture2',
+	sol: 'solar_radiation',
 	t: 'temperature',
 	v: 'voltage'
 };

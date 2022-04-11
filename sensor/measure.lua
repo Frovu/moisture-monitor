@@ -10,6 +10,7 @@ local ads_channels = {
 	vcc = ads1115.SINGLE_1,
 	ch1 = ads1115.SINGLE_2,
 	ch2 = ads1115.SINGLE_3,
+	sol = ads1115.SINGLE_0
 }
 local id, sda, scl = 0, 1, 2
 i2c.setup(id, sda, scl, i2c.SLOW)
@@ -20,6 +21,7 @@ local voltages = {
 	vcc = .0,
 	ch1 = .0,
 	ch2 = .0,
+	sol = .0
 }
 
 local function measure_adc(channel, cb)
@@ -36,6 +38,7 @@ local function send(temperature)
 		t = temperature,
 		m = voltages["ch1"],
 		m2 = voltages["ch2"],
+		sol = voltages["sol"],
 		v = voltages["vcc"]
 	})
 	print("Heap = "..node.heap())
@@ -54,8 +57,10 @@ local function measure_and_send()
 	measure_adc("vcc", function()
 		measure_adc("ch1", function()
 			measure_adc("ch2", function()
-				gpio.write(LED_PIN, gpio.HIGH)
-				ds18b20.measure(DS18B20_PIN, send)
+				measure_adc("sol", function()
+					gpio.write(LED_PIN, gpio.HIGH)
+					ds18b20.measure(DS18B20_PIN, send)
+				end)
 			end)
 		end)
 	end)
